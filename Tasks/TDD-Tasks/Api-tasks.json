@@ -1,0 +1,236 @@
+{
+    "master": {
+        "tasks": [
+            {
+                "id": 1,
+                "title": "Setup Infrastructure with Terraform",
+                "description": "Provision Azure cloud infrastructure including AKS, PostgreSQL, Redis, Azure Key Vault, API Management, and Blob Storage using Terraform",
+                "details": "Create Terraform modules for: 1) Azure Resource Group, 2) AKS cluster with node pools, 3) Azure Database for PostgreSQL Flexible Server, 4) Azure Cache for Redis, 5) Azure Key Vault with access policies, 6) Azure API Management instance, 7) Azure Blob Storage for media assets, 8) Azure Service Bus for async messaging. Use terraform workspaces for dev/qa/prod environments. Include network security groups, virtual networks, and proper RBAC configurations. Store Terraform state in Azure Storage Account with state locking.",
+                "testStrategy": "Validate infrastructure provisioning with terraform plan/apply. Test connectivity between services. Verify security configurations and access policies. Run infrastructure tests using Terratest framework.",
+                "priority": "high",
+                "dependencies": [],
+                "status": "pending",
+                "subtasks": []
+            },
+            {
+                "id": 2,
+                "title": "Implement Domain-Driven Design Foundation",
+                "description": "Create the core DDD structure with domain entities, aggregates, value objects, and domain events for all bounded contexts",
+                "details": "Implement domain layer for each bounded context: Identity & Access (User, Role aggregates), Subscription & Billing (Subscription, Payment aggregates), Media Catalog (Media, Category aggregates), Media Upload & Moderation (Upload, ModerationResult aggregates), Streaming (Stream, ViewingSession aggregates), Notification & Sharing (Notification, Share aggregates). Create base classes: Entity<T>, AggregateRoot<T>, ValueObject, DomainEvent. Implement domain events: MediaUploadedEvent, MediaApprovedEvent, PaymentCompletedEvent. Use C# records for value objects and proper encapsulation for aggregates.",
+                "testStrategy": "Unit tests for domain logic without external dependencies. Test aggregate invariants, domain event publishing, and value object equality. Verify business rules enforcement at domain level.",
+                "priority": "high",
+                "dependencies": [
+                    1
+                ],
+                "status": "pending",
+                "subtasks": []
+            },
+            {
+                "id": 3,
+                "title": "Implement Generic Repository Pattern",
+                "description": "Create generic repository interfaces and implementations for data access across all microservices using Entity Framework Core with PostgreSQL",
+                "details": "Create IRepository<T> and IUnitOfWork interfaces. Implement GenericRepository<T> using Entity Framework Core with PostgreSQL provider. Create DbContext for each bounded context with proper entity configurations. Implement repository methods: GetByIdAsync, GetAllAsync, FindAsync, AddAsync, UpdateAsync, DeleteAsync. Use specification pattern for complex queries. Configure connection strings via Azure Key Vault. Implement database migrations for each service. Use connection pooling and proper disposal patterns.",
+                "testStrategy": "Integration tests with test containers for PostgreSQL. Test CRUD operations, transactions, and concurrent access. Verify connection pooling and performance under load. Test migration scripts and rollback scenarios.",
+                "priority": "high",
+                "dependencies": [
+                    2
+                ],
+                "status": "pending",
+                "subtasks": []
+            },
+            {
+                "id": 4,
+                "title": "Develop Authentication & Authorization Service",
+                "description": "Implement OAuth 2.0/OpenID Connect authentication service with JWT tokens and role-based authorization",
+                "details": "Create Identity microservice using ASP.NET Core Identity with JWT Bearer authentication. Implement OAuth 2.0 flows: authorization code, client credentials. Configure OpenID Connect with Azure AD integration. Create JWT token service with RS256 signing using Azure Key Vault certificates. Implement role-based authorization with User and Admin roles. Create middleware for token validation and claims extraction. Store refresh tokens in Redis with expiration. Implement password policies and account lockout mechanisms.",
+                "testStrategy": "Unit tests for token generation/validation. Integration tests for OAuth flows. Test role-based access control. Security testing for token tampering and replay attacks. Load testing for authentication endpoints.",
+                "priority": "high",
+                "dependencies": [
+                    3
+                ],
+                "status": "pending",
+                "subtasks": [
+                    {
+                        "id": 1,
+                        "title": "User Profile Management Service",
+                        "description": "Manage user profile data and profile update workflows",
+                        "dependencies": [
+                            4
+                        ],
+                        "details": "Implement APIs to view user profile, edit name, mobile number, and profile picture. Implement change email and change mobile workflows with OTP/email verification. Store profile image securely and update profile metadata.",
+                        "status": "pending",
+                        "testStrategy": "Integration tests for profile CRUD APIs and verification flows"
+                    },
+                    {
+                        "id": 2,
+                        "title": "Forgot and Reset Password Flow",
+                        "description": "Enable users to reset passwords securely",
+                        "dependencies": [
+                            4
+                        ],
+                        "details": "Implement forgot password API, OTP/email-based verification, password reset API, and reset confirmation. Enforce password policies and invalidate old sessions after reset.",
+                        "status": "pending",
+                        "testStrategy": "Security tests for OTP flow and password reset validation"
+                    }
+                ]
+            },
+            {
+                "id": 5,
+                "title": "Build Core Microservices with REST APIs",
+                "description": "Develop the six core microservices (Identity, Subscription, Media Catalog, Upload & Moderation, Streaming, Notification) with RESTful APIs",
+                "details": "Create ASP.NET Core Web API projects for each service following layered architecture. Implement controllers for API endpoints: /api/v1/auth, /api/v1/users, /api/v1/subscriptions, /api/v1/payments, /api/v1/media, /api/v1/uploads, /api/v1/moderation. Use MediatR for CQRS pattern in application layer. Implement DTOs and AutoMapper for object mapping. Add FluentValidation for request validation. Configure Swagger/OpenAPI 3.0 specifications. Implement proper HTTP status codes and error handling. Use async/await patterns throughout.",
+                "testStrategy": "Unit tests for controllers and application services. API integration tests using WebApplicationFactory. Contract testing with OpenAPI specifications. Test error handling and validation scenarios. Performance testing for API response times < 300ms.",
+                "priority": "high",
+                "dependencies": [
+                    4
+                ],
+                "status": "pending",
+                "subtasks": [
+                    {
+                        "id": 1,
+                        "title": "Guest User Access Rules",
+                        "description": "Define backend behavior for non-authenticated users",
+                        "dependencies": [
+                            5
+                        ],
+                        "details": "Allow guest users to browse media catalog APIs. Block streaming, upload, and sharing APIs for guests. Return standardized authorization responses prompting login.",
+                        "status": "pending",
+                        "testStrategy": "API tests for guest vs authenticated access control"
+                    },
+                    {
+                        "id": 2,
+                        "title": "Business Error and Empty State Handling",
+                        "description": "Standardize business-level error and empty state responses",
+                        "dependencies": [
+                            5
+                        ],
+                        "details": "Define API responses for no data found, network failure, subscription expired, and payment failed scenarios. Provide consistent error codes and messages for frontend UX handling.",
+                        "status": "pending",
+                        "testStrategy": "Contract tests for standardized error responses"
+                    },
+                    {
+                        "id": 3,
+                        "title": "Legal and Compliance Content APIs",
+                        "description": "Serve legal and compliance content",
+                        "dependencies": [
+                            5
+                        ],
+                        "details": "Create APIs to fetch Terms & Conditions, Privacy Policy, and Cookie Consent content. Support versioning and acceptance tracking per user.",
+                        "status": "pending",
+                        "testStrategy": "API tests for content retrieval and acceptance logging"
+                    },
+                    {
+                        "id": 4,
+                        "title": "Global and Scoped Search Backend",
+                        "description": "Define and implement search scope behavior",
+                        "dependencies": [
+                            5
+                        ],
+                        "details": "Implement search APIs supporting global search across songs, movies, artists, and categories. Support category-based and entity-based search filtering.",
+                        "status": "pending",
+                        "testStrategy": "Search accuracy and performance testing"
+                    },
+                    {
+                        "id": 5,
+                        "title": "Content Recommendation Rules Engine",
+                        "description": "Provide recommended, trending, and popular content",
+                        "dependencies": [
+                            5
+                        ],
+                        "details": "Implement backend logic for recommended, trending, and popular media based on views, recency, and engagement metrics. Expose APIs for recommendation sections.",
+                        "status": "pending",
+                        "testStrategy": "Validation of recommendation logic and ranking consistency"
+                    }
+                ]
+            },
+            {
+                "id": 6,
+                "title": "Implement Caching Layer with Redis",
+                "description": "Integrate Redis caching for performance optimization and rate limiting across all microservices",
+                "details": "Configure StackExchange.Redis client with connection multiplexing. Implement distributed caching using IDistributedCache interface. Create caching strategies: cache-aside for media catalog, write-through for user sessions. Implement rate limiting using Redis sliding window algorithm. Cache frequently accessed data: user profiles, media metadata, subscription status. Set appropriate TTL values and cache invalidation strategies. Use Redis pub/sub for cache invalidation across service instances. Implement circuit breaker pattern for Redis failures.",
+                "testStrategy": "Integration tests with Redis test containers. Test cache hit/miss scenarios and TTL expiration. Verify rate limiting functionality. Test cache invalidation and consistency. Monitor cache hit ratio > 80% requirement.",
+                "priority": "medium",
+                "dependencies": [
+                    5
+                ],
+                "status": "pending",
+                "subtasks": []
+            },
+            {
+                "id": 7,
+                "title": "Implement Media Storage and Processing",
+                "description": "Develop media upload, storage in Azure Blob Storage, and processing pipeline with moderation capabilities",
+                "details": "Integrate Azure Blob Storage SDK for media asset storage. Implement chunked upload for large files with resume capability. Create media processing pipeline using Azure Functions or background services. Implement content moderation using Azure Content Moderator or custom ML models. Generate multiple quality versions (480p, 720p, 1080p) using FFmpeg. Create thumbnail generation service. Implement virus scanning for uploaded content. Use Azure CDN for global content delivery. Store metadata in PostgreSQL with blob references.",
+                "testStrategy": "Integration tests for blob storage operations. Test large file uploads and resume functionality. Verify media processing pipeline and quality generation. Test content moderation accuracy. Performance testing for upload/download speeds.",
+                "priority": "medium",
+                "dependencies": [
+                    6
+                ],
+                "status": "pending",
+                "subtasks": []
+            },
+            {
+                "id": 8,
+                "title": "Setup Asynchronous Messaging with Azure Service Bus",
+                "description": "Implement event-driven architecture using Azure Service Bus for cross-service communication and workflow orchestration",
+                "details": "Configure Azure Service Bus with topics and subscriptions for each domain event. Implement message publishers and handlers for MediaUploadedEvent, MediaApprovedEvent, PaymentCompletedEvent. Create message serialization using System.Text.Json. Implement retry policies and dead letter queues. Use correlation IDs for message tracing. Implement saga pattern for complex workflows like payment processing. Configure message deduplication and ordering where required. Handle poison messages and implement circuit breaker patterns.",
+                "testStrategy": "Integration tests for message publishing and consumption. Test retry mechanisms and dead letter queue handling. Verify message ordering and deduplication. Test saga workflow completion and compensation. Monitor message processing latency and throughput.",
+                "priority": "medium",
+                "dependencies": [
+                    7
+                ],
+                "status": "pending",
+                "subtasks": [
+                    {
+                        "id": 1,
+                        "title": "User Notification Service",
+                        "description": "Notify users about system and business events",
+                        "dependencies": [
+                            8
+                        ],
+                        "details": "Implement in-app, email, and SMS notifications for subscription expiry, payment success/failure, and upload approval/rejection. Store notification history and delivery status.",
+                        "status": "pending",
+                        "testStrategy": "Integration tests for message delivery and retry handling"
+                    }
+                ]
+            },
+            {
+                "id": 9,
+                "title": "Implement Monitoring, Logging, and Health Checks",
+                "description": "Setup comprehensive observability with Application Insights, structured logging, and health monitoring across all services",
+                "details": "Configure Application Insights for each microservice with custom telemetry. Implement structured logging using Serilog with correlation IDs. Create custom metrics for business KPIs: active streams, upload success rates, payment conversions. Implement health check endpoints using Microsoft.Extensions.Diagnostics.HealthChecks. Add dependency health checks for PostgreSQL, Redis, Azure services. Configure log aggregation and alerting rules. Implement distributed tracing with correlation across service boundaries. Create dashboards for monitoring service health and performance.",
+                "testStrategy": "Verify health check endpoints return correct status. Test log correlation across service calls. Validate custom metrics collection and alerting. Test distributed tracing functionality. Verify dashboard accuracy and alert responsiveness.",
+                "priority": "medium",
+                "dependencies": [
+                    8
+                ],
+                "status": "pending",
+                "subtasks": []
+            },
+            {
+                "id": 10,
+                "title": "Deploy and Configure Production Environment",
+                "description": "Deploy all microservices to AKS with proper configuration, security, and CI/CD pipeline setup",
+                "details": "Create Kubernetes manifests for each microservice with proper resource limits and requests. Configure Azure API Management with rate limiting, authentication, and routing policies. Setup GitFlow workflow with automated CI/CD using Azure DevOps or GitHub Actions. Implement rolling deployments with zero downtime. Configure environment-specific settings using Kubernetes ConfigMaps and Secrets. Setup SSL/TLS certificates and security headers. Configure horizontal pod autoscaling based on CPU/memory metrics. Implement backup strategies for PostgreSQL and Redis. Setup monitoring alerts and incident response procedures.",
+                "testStrategy": "End-to-end testing in production-like environment. Load testing to verify performance benchmarks. Security penetration testing. Disaster recovery testing with backup restoration. Verify CI/CD pipeline functionality and rollback procedures.",
+                "priority": "high",
+                "dependencies": [
+                    9
+                ],
+                "status": "pending",
+                "subtasks": []
+            }
+        ],
+        "metadata": {
+            "created": "2026-02-06T04:48:29.944Z",
+            "updated": "2026-02-06T04:48:29.944Z",
+            "description": "Tasks for master context",
+            "iterationDuration": "2 weeks",
+            "teamComposition": {
+                "developers": 3,
+                "qa": 1,
+                "businessAnalyst": 1
+            }
+        }
+    }
+}

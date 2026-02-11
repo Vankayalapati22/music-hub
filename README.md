@@ -1,36 +1,121 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎵 Music Hub - Ultimate Music Streaming Platform
 
-## Getting Started
+A complete Next.js music streaming application with authentication, media browsing, playback, subscriptions, uploads, and admin moderation.
 
-First, run the development server:
+![Next.js](https://img.shields.io/badge/Next.js-16.1.6-black)
+![React](https://img.shields.io/badge/React-19.2.3-blue)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind-3-38bdf8)
+![Redux Toolkit](https://img.shields.io/badge/Redux_Toolkit-2.2.0-764abc)
+
+## ✨ Features
+
+- 🔐 **Authentication** - Login/Register with validation
+- 🎵 **Media Catalog** - Browse songs and videos with filters
+- ▶️ **Media Player** - Full-featured audio/video playback
+- 💎 **Subscriptions** - Free, Premium, and Family plans
+- 📤 **Upload System** - Drag-and-drop media upload
+- 👨‍💼 **Admin Dashboard** - Content moderation interface
+- 🎨 **Modern UI** - Glassmorphism, gradients, and dark theme
+- 📱 **Responsive** - Mobile-first design
+
+## 🚀 Quick Start
 
 ```bash
+# Install dependencies
+npm install
+
+# Run development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Visit [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🧪 Demo Credentials
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### User Account
+- **Email**: `user@example.com`
+- **Password**: `password123`
 
-## Learn More
+### Admin Account
+- **Email**: `admin@example.com`
+- **Password**: `admin123`
 
-To learn more about Next.js, take a look at the following resources:
+## 📁 Project Structure
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+music-hub/
+├── app/                    # Next.js App Router pages
+│   ├── page.tsx           # Homepage
+│   ├── login/             # Login page
+│   ├── register/          # Registration
+│   ├── browse/            # Media catalog
+│   ├── subscriptions/     # Plans
+│   ├── upload/            # Upload page
+│   └── admin/dashboard/   # Admin panel
+├── src/
+│   ├── components/ui/     # UI components
+│   ├── store/             # Redux store
+│   ├── services/          # API services
+│   ├── lib/               # Utilities & mock data
+│   └── types/             # TypeScript types
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🛠️ Tech Stack
 
-## Deploy on Vercel
+- **Framework**: Next.js 16 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **State Management**: Redux Toolkit
+- **Forms**: React Hook Form + Yup
+- **HTTP Client**: Axios
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 📖 Pages
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Public Pages
+- **/** - Homepage with hero section
+- **/login** - User authentication
+- **/register** - Account creation
+- **/browse** - Media catalog
+- **/subscriptions** - Plan comparison
+
+### Protected Pages
+- **/upload** - Upload media (requires login)
+- **/admin/dashboard** - Moderation (admin only)
+
+## 🎨 Design Features
+
+- **Glassmorphism** - Frosted glass UI elements
+- **Gradient Text** - Eye-catching color gradients
+- **Glow Effects** - Interactive hover states
+- **Dark Theme** - Professional color scheme
+
+## 🔧 Mock Data
+
+The application uses mock data for development:
+
+- **Users**: 3 test accounts
+- **Media**: 8 songs/videos with metadata
+- **Subscriptions**: 3 plans (Free, Premium, Family)
+- **Mock API**: Axios interceptors simulate backend
+
+## 🚀 Deployment
+
+### Vercel (Recommended)
+
+```bash
+npm install -g vercel
+vercel
+```
+
+## 🔄 Connecting to Real Backend
+
+To connect to a real API:
+
+1. Update `NEXT_PUBLIC_API_URL` in `.env.local`
+2. Remove mock interceptors from `src/lib/axios.ts`
+3. Implement real API endpoints
+
+---
+
+Built with ❤️ using Next.js and TypeScript

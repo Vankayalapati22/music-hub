@@ -1,0 +1,275 @@
+{
+    "master": {
+        "tasks": [
+            {
+                "id": 1,
+                "title": "Project Setup and Development Environment Configuration",
+                "description": "Initialize Next.js project with TypeScript, configure development environment, and set up core dependencies",
+                "details": "Create Next.js project with TypeScript using 'npx create-next-app@latest --typescript'. Install core dependencies: Redux Toolkit, RTK Query, Material UI v5, React Hook Form, Yup, Axios, date-fns, clsx. Configure ESLint, Prettier, and TypeScript strict mode. Set up folder structure: /src/app, /features, /components, /services, /store, /theme, /utils, /types. Configure environment files (.env.local, .env.production) and Next.js config with security headers (X-Frame-Options, X-Content-Type-Options, Referrer-Policy). Set up GitFlow branching strategy.",
+                "testStrategy": "Verify project builds successfully, all dependencies install without conflicts, ESLint and Prettier run without errors, and folder structure matches TDD specifications",
+                "priority": "high",
+                "dependencies": [],
+                "status": "pending",
+                "subtasks": [
+                    {
+                        "id": 1,
+                        "title": "Legal and Compliance Screens",
+                        "description": "Add mandatory legal and compliance-related screens",
+                        "dependencies": [
+                            1
+                        ],
+                        "details": "Create Terms & Conditions page, Privacy Policy page, and Cookie Consent banner. Ensure cookie consent is captured before analytics and sharing features activate. Allow users to revisit legal pages anytime.",
+                        "status": "pending",
+                        "testStrategy": "Verify pages render correctly. Test cookie consent persistence and behavior. Validate analytics only loads after consent."
+                    }
+                ]
+            },
+            {
+                "id": 2,
+                "title": "Authentication System Implementation",
+                "description": "Implement JWT-based authentication with secure token management and role-based access control",
+                "details": "Create authentication slice using Redux Toolkit with login/logout actions. Implement JWT token storage in HttpOnly cookies. Create auth middleware for Next.js App Router to protect routes. Build login/register forms using React Hook Form with Yup validation for email (regex validation) and mobile number (10 digits numeric). Implement role-based route guards for User/Admin access. Create auth service using RTK Query for API calls. Handle session timeout and token refresh. Implement secure logout with token invalidation.",
+                "testStrategy": "Unit tests for auth slice actions and reducers, integration tests for login/logout flow, verify route protection works for both User and Admin roles, test session timeout handling",
+                "priority": "high",
+                "dependencies": [
+                    1
+                ],
+                "status": "pending",
+                "subtasks": [
+                    {
+                        "id": 1,
+                        "title": "User Profile Management",
+                        "description": "Enable users to view and manage their profile details",
+                        "dependencies": [
+                            2
+                        ],
+                        "details": "Create profile screen to view user details. Implement edit profile functionality for name, mobile number, and profile picture upload. Implement change email and change mobile workflows with verification (OTP/email confirmation). Store profile data securely and update Redux state accordingly.",
+                        "status": "pending",
+                        "testStrategy": "Unit tests for profile form validation. Integration tests for profile update API. Verify profile image upload and data persistence."
+                    },
+                    {
+                        "id": 2,
+                        "title": "Forgot and Reset Password Flow",
+                        "description": "Implement secure password recovery and reset functionality",
+                        "dependencies": [
+                            2
+                        ],
+                        "details": "Create Forgot Password screen with email/mobile input. Implement OTP or email-based verification flow. Create Reset Password screen with new password and confirmation. Handle token expiry and invalid reset attempts. Show reset success confirmation.",
+                        "status": "pending",
+                        "testStrategy": "Test OTP/email delivery flow. Validate password reset with valid and invalid tokens. Test password policy enforcement."
+                    }
+                ]
+            },
+            {
+                "id": 3,
+                "title": "UI Theme and Component Library Setup",
+                "description": "Configure Material UI theme system and create reusable component library following design specifications",
+                "details": "Set up Material UI v5 theme provider with custom theme configuration for colors, typography, and spacing. Create theme variants for light/dark modes. Build atomic, reusable components following the screenshot folder designs: Header, Navigation, MediaCard, PlayerControls, UploadForm, SubscriptionCard. Implement responsive design patterns. Create component documentation and Storybook setup. Ensure pixel-perfect implementation matching wireframes. Implement MUI theme-only styling (no inline styles).",
+                "testStrategy": "Visual regression tests comparing components to screenshot folder designs, responsive design testing across breakpoints, theme switching functionality verification",
+                "priority": "medium",
+                "dependencies": [
+                    1
+                ],
+                "status": "pending",
+                "subtasks": []
+            },
+            {
+                "id": 4,
+                "title": "Media Catalog and Browse Functionality",
+                "description": "Implement media browsing system with filtering by genres, categories, artists, singers, and music directors",
+                "details": "Create media catalog feature with Redux slice for managing media state. Implement RTK Query endpoints for fetching media by genres, categories, artists, singers, music directors, and movies. Build browse interface with search and filter components. Create MediaGrid and MediaCard components for displaying content. Implement pagination and infinite scrolling. Add sorting options (newest, popular, alphabetical). Create detailed media view pages. Implement lazy loading for media thumbnails and metadata. Add breadcrumb navigation for category drilling.",
+                "testStrategy": "Unit tests for media slice and RTK Query endpoints, integration tests for filtering and search functionality, performance tests for large media catalogs, accessibility testing for keyboard navigation",
+                "priority": "high",
+                "dependencies": [
+                    2,
+                    3
+                ],
+                "status": "pending",
+                "subtasks": [
+                    {
+                        "id": 1,
+                        "title": "Guest User Experience",
+                        "description": "Define and implement behavior for non-logged-in users",
+                        "dependencies": [
+                            4
+                        ],
+                        "details": "Allow guest users to browse media catalog without login. Restrict play, share, upload, and subscription actions. Show login/signup prompts when restricted actions are attempted. Maintain seamless navigation for guests.",
+                        "status": "pending",
+                        "testStrategy": "Verify guest access restrictions. Test login prompts on play/share actions. Ensure no protected API calls are accessible without authentication."
+                    },
+                    {
+                        "id": 20,
+                        "title": "Global Search Scope Implementation",
+                        "description": "Define and implement global and scoped search behavior",
+                        "dependencies": [
+                            4
+                        ],
+                        "details": "Implement global search across songs, movies, artists, and categories. Support category-based filtering and result grouping. Clearly define and display search scope in UI.",
+                        "status": "pending",
+                        "testStrategy": "Test global and scoped search results. Validate search accuracy and performance. Ensure correct grouping of results."
+                    }
+                ]
+            },
+            {
+                "id": 5,
+                "title": "Subscription Management System",
+                "description": "Build subscription plan selection and management interface with payment integration",
+                "details": "Create subscription feature with Redux slice for managing subscription state. Build subscription plan selection UI with pricing cards and feature comparison. Implement RTK Query endpoints for subscription CRUD operations. Create subscription dashboard showing current plan, usage, and billing history. Build plan upgrade/downgrade flows. Implement subscription status checks and access control. Create subscription expiry notifications and renewal prompts. Handle subscription validation for media access.",
+                "testStrategy": "Unit tests for subscription slice and validation logic, integration tests for plan selection and upgrade flows, test subscription-based access control across the application",
+                "priority": "high",
+                "dependencies": [
+                    2,
+                    3
+                ],
+                "status": "pending",
+                "subtasks": []
+            },
+            {
+                "id": 6,
+                "title": "Payment Gateway Integration",
+                "description": "Integrate secure payment processing with multiple payment modes and confirmation handling",
+                "details": "Integrate payment gateway API with secure HTTPS-only communication. Create payment form with React Hook Form validation for payment details. Implement multiple payment modes (credit card, debit card, UPI, net banking) via dropdown selection. Build payment confirmation flow with real-time status updates. Handle payment success/failure scenarios with appropriate user feedback. Implement payment retry mechanism for failed transactions. Create payment history and receipt generation. Ensure PCI DSS compliance for payment data handling. Add payment loading states and error handling.",
+                "testStrategy": "Integration tests with payment gateway sandbox, test payment success/failure flows, verify secure data transmission, test payment retry mechanism, validate receipt generation",
+                "priority": "high",
+                "dependencies": [
+                    5
+                ],
+                "status": "pending",
+                "subtasks": []
+            },
+            {
+                "id": 7,
+                "title": "Media Upload System",
+                "description": "Implement user media upload functionality with file validation and moderation workflow",
+                "details": "Create upload feature with Redux slice for managing upload state. Build drag-and-drop upload interface with progress indicators. Implement file validation for supported formats (audio/video). Create upload form with metadata fields (title, description, genre, artist). Implement chunked file upload for large media files. Add upload progress tracking and cancellation. Create upload queue management for multiple files. Implement client-side file compression and optimization. Handle upload errors and retry mechanisms. Set content status to 'Pending' automatically after upload.",
+                "testStrategy": "Unit tests for file validation logic, integration tests for upload flow, test large file uploads, verify upload progress tracking, test upload cancellation and retry mechanisms",
+                "priority": "medium",
+                "dependencies": [
+                    2,
+                    3
+                ],
+                "status": "pending",
+                "subtasks": []
+            },
+            {
+                "id": 8,
+                "title": "Admin Moderation Dashboard",
+                "description": "Build comprehensive admin interface for content moderation and approval workflow",
+                "details": "Create admin feature with role-based access control. Build moderation dashboard showing pending content queue. Implement content review interface with media preview, metadata display, and approval/rejection controls. Create batch operations for multiple content items. Add moderation history and audit trail. Implement SLA-based alerts for pending content. Create admin analytics dashboard showing moderation metrics. Build content management tools for published media. Add admin notification system for new uploads. Implement moderation workflow with comments and feedback.",
+                "testStrategy": "Unit tests for admin role validation, integration tests for moderation workflow, test batch operations, verify SLA alert system, test admin analytics accuracy",
+                "priority": "medium",
+                "dependencies": [
+                    2,
+                    3,
+                    7
+                ],
+                "status": "pending",
+                "subtasks": [
+                    {
+                        "id": 1,
+                        "title": "Content Recommendation and Popularity Rules",
+                        "description": "Define and display recommended and popular content",
+                        "dependencies": [
+                            4,
+                            9
+                        ],
+                        "details": "Define recommendation logic based on trending views, recent plays, and popularity metrics. Implement sections like Recommended for You, Trending Now, and Popular. Ensure rules are configurable and scalable.",
+                        "status": "pending",
+                        "testStrategy": "Validate recommendation ordering logic. Test UI rendering for recommendation sections. Verify performance for large datasets."
+                    },
+                    {
+                        "id": 2,
+                        "title": "User Notification System",
+                        "description": "Notify users about important system and business events",
+                        "dependencies": [
+                            5,
+                            8
+                        ],
+                        "details": "Implement in-app notifications and email/SMS notifications for subscription expiry, payment success/failure, and upload approval/rejection. Store notification history and show unread indicators.",
+                        "status": "pending",
+                        "testStrategy": "Test notification triggers for each event. Verify delivery via in-app and email/SMS. Validate notification read/unread states."
+                    }
+                ]
+            },
+            {
+                "id": 9,
+                "title": "Media Streaming Engine",
+                "description": "Implement secure media streaming with playback controls and subscription validation",
+                "details": "Create media player component with HTML5 video/audio elements. Implement secure streaming URLs with token-based access. Build custom playback controls (play, pause, seek, volume, fullscreen). Add playlist functionality and queue management. Implement streaming quality selection (auto, 720p, 1080p). Create media buffering and preloading optimization. Add keyboard shortcuts for player controls. Implement subscription validation before streaming starts. Handle streaming errors and network issues gracefully. Add media progress tracking and resume functionality.",
+                "testStrategy": "Integration tests for streaming functionality, test subscription validation, verify secure URL generation, test playback controls, performance tests for streaming latency (<3s target)",
+                "priority": "high",
+                "dependencies": [
+                    4,
+                    5
+                ],
+                "status": "pending",
+                "subtasks": []
+            },
+            {
+                "id": 10,
+                "title": "Social Sharing Integration",
+                "description": "Implement media sharing functionality via WhatsApp, Telegram, Gmail, and SMS",
+                "details": "Create sharing service with RTK Query endpoints for generating shareable links. Implement sharing modal with platform selection (WhatsApp, Telegram, Gmail, SMS). Build deep linking for shared content with proper metadata. Create share URL generation with tracking parameters. Implement social media preview cards with Open Graph tags. Add copy-to-clipboard functionality for share links. Create sharing analytics and tracking. Handle sharing permissions and privacy settings. Implement share link expiration and access control.",
+                "testStrategy": "Integration tests for each sharing platform, test deep linking functionality, verify Open Graph metadata, test share link generation and expiration, validate sharing analytics",
+                "priority": "medium",
+                "dependencies": [
+                    4,
+                    9
+                ],
+                "status": "pending",
+                "subtasks": []
+            },
+            {
+                "id": 11,
+                "title": "Performance Optimization and Security Hardening",
+                "description": "Implement performance optimizations and comprehensive security measures",
+                "details": "Implement code splitting and lazy loading for all feature modules. Add image optimization with Next.js Image component. Configure Content Security Policy headers. Implement XSS protection with input sanitization. Add dependency vulnerability scanning with npm audit. Configure security headers (X-Frame-Options, X-Content-Type-Options, Referrer-Policy). Implement rate limiting for API calls. Add error boundary components for graceful error handling. Configure performance monitoring with Core Web Vitals tracking. Implement bundle analysis and optimization. Add runtime error monitoring and logging.",
+                "testStrategy": "Performance testing with Lighthouse (target: FCP <2s), security testing with OWASP Top 10 checklist, vulnerability scanning, bundle size analysis, error boundary testing",
+                "priority": "high",
+                "dependencies": [
+                    9
+                ],
+                "status": "pending",
+                "subtasks": [
+                    {
+                        "id": 1,
+                        "title": "Error and Empty State UX",
+                        "description": "Implement user-friendly error and empty state screens",
+                        "dependencies": [
+                            4,
+                            6
+                        ],
+                        "details": "Design and implement UI states for no data found, network errors, subscription expired, and payment failed scenarios. Display clear recovery actions (retry, renew, contact support). Ensure consistent UX across all modules.",
+                        "status": "pending",
+                        "testStrategy": "UI testing for all error states. Simulate API failures and validate correct UX rendering."
+                    }
+                ]
+            },
+            {
+                "id": 12,
+                "title": "Testing Suite and Quality Assurance",
+                "description": "Implement comprehensive testing strategy with unit, integration, and end-to-end tests",
+                "details": "Set up Jest and React Testing Library for unit testing. Implement Playwright for end-to-end testing. Create test coverage for critical flows: authentication, subscription, payment, upload, streaming, sharing. Build integration tests for RTK Query endpoints and Redux slices. Implement visual regression testing for UI components. Create accessibility testing with axe-core. Set up CI/CD pipeline with automated testing. Configure SonarQube for code quality analysis. Create performance benchmarking tests. Implement security testing automation.",
+                "testStrategy": "Achieve minimum 80% test coverage for critical flows, all tests pass in CI/CD pipeline, visual regression tests match screenshot folder designs, accessibility tests pass WCAG guidelines, performance tests meet defined targets",
+                "priority": "medium",
+                "dependencies": [
+                    10,
+                    11
+                ],
+                "status": "pending",
+                "subtasks": []
+            }
+        ],
+        "metadata": {
+            "created": "2026-02-06T07:57:37.996Z",
+            "updated": "2026-02-06T07:57:37.996Z",
+            "description": "Tasks for master context",
+            "iterationDuration": "2 weeks",
+            "teamComposition": {
+                "developers": 3,
+                "qa": 1,
+                "businessAnalyst": 1
+            }
+        }
+    }
+}
