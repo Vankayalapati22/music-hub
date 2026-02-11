@@ -36,7 +36,7 @@ export default function HomePage() {
                         </div>
 
                         <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">
-                            Your Ultimate Music Hub
+                            Your Ultimate Music
                             <br />
                             <span className="gradient-text">Streaming Platform</span>
                         </h1>
