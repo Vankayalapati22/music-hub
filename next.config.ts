@@ -1,7 +1,13 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
-};
+  output: "export",
+  basePath: "/music-hub",
+  assetPrefix: "/music-hub/",
+  images: {
+    unoptimized: true,
+  },
 
-export default nextConfig;
+
+};
+module.exports = nextConfig;
