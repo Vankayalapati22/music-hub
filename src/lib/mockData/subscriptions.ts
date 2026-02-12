@@ -5,7 +5,7 @@ export const mockSubscriptionPlans: SubscriptionPlan[] = [
         id: 'plan-free',
         name: 'Free',
         price: 0,
-        duration: 365,
+        duration: 90,
         features: [
             'Browse media catalog',
             'SD quality streaming',
@@ -19,7 +19,7 @@ export const mockSubscriptionPlans: SubscriptionPlan[] = [
         id: 'plan-premium',
         name: 'Premium',
         price: 2,
-        duration: 365,
+        duration: 180,
         features: [
             'Unlimited streaming',
             'HD quality streaming',
