@@ -19,6 +19,7 @@ export const fetchMedia = createAsyncThunk(
         try {
             const media = await mediaService.getMedia(filters);
             return media;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
             return rejectWithValue(error.response?.data?.error || 'Failed to fetch media');
         }
@@ -31,6 +32,7 @@ export const fetchMediaById = createAsyncThunk(
         try {
             const media = await mediaService.getMediaById(id);
             return media;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
             return rejectWithValue(error.response?.data?.error || 'Failed to fetch media');
         }
